@@ -1,5 +1,6 @@
 require 'nokogiri'
 require 'open-uri'
+require_relative './post.rb'
 
 class SearchResult
   attr_reader :posts
@@ -12,15 +13,12 @@ class SearchResult
   end
 
   def parse
-    @search_page.css(".row").each do |post|
-      description_url = post.at_css("a")[:href]
-      @posts << Post.from_url(description_url)
-    end
+    @search_page.css(".row").each { |post| @posts << Post.from_url(post.at_css("a")[:href]) }
     @posts
   end
-end
 
-class Post
-  def self.from_url(des)
+  private
+  def search_to_post_db
+    @posts.each { |post| post.to_db }
   end
 end
