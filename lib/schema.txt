@@ -1,0 +1,11 @@
+create table posts (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  date DATETIME,
+  title varchar(64),
+  price INTEGER,
+  location varchar(30),
+  category varchar(30),
+  url varchar(64),
+  description varchar(30),
+  search_result_id INTEGER
+);

@@ -20,6 +20,14 @@ class Post
     Post.new(date(doc), title(doc), price(doc), location(doc), category(doc), url, description(doc))
   end
 
+  def to_db(db, search_result_id)
+    db.execute("insert into posts(date, title, price, location, category, URL,
+      description, search_result_id)
+      values(?, ?, ?, ?, ?, ?, ?, ?)",
+      @date.to_s, @title, @price, @location, @category, @url, @description, search_result_id)
+  end
+
+
   private
   def self.date(doc)
     date_string = doc.at_css(".postingdate").text
