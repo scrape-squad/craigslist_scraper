@@ -43,20 +43,29 @@ class Post
   end
 
   def self.price(doc)
-    doc.at_css("h2").text.match(/\$\d+/)[0][1..-1].to_i
+    result = doc.at_css("h2").text.match(/\$\d+/)
+    if result.nil?
+      return nil
+    else
+      result[0][1..-1].to_i
+    end
   end
 
   def self.location(doc)
-    doc.at_css("h2").text.match(/\(.+\)/)[0][1..-2]
+    result = doc.at_css("h2").text.match(/\([^\(]+\)$/)
+    if result.nil?
+      return nil
+    else
+      result[0][1..-2]
+    end
   end
 
   def self.category(doc)
-    doc.at_css("a:nth-child(5)").text
+    result = doc.css(".bchead a")[-1].text
   end
 
   def self.description(doc)
     doc.at_css("#userbody").text
   end
-
 
 end

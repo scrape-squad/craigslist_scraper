@@ -4,7 +4,7 @@ require 'uri'
 require 'sqlite3'
 require_relative './post.rb'
 
-class Search_Result
+class SearchResult
   attr_reader :posts
   def initialize
     @posts = []
@@ -33,6 +33,8 @@ class Search_Result
       VALUES ("#{@query}", DATETIME('now'), DATETIME('now'))
     SQL
     @search_result_id = db.get_first_value('SELECT id FROM search_results ORDER BY id DESC')
+
+    search_to_post_db(db)
   end
 
   private

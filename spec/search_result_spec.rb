@@ -2,12 +2,12 @@ require_relative '../lib/search_result.rb'
 require 'fakeweb'
 require 'sqlite3'
 
-describe Search_Result do
-  let(:searchresult) { Search_Result.new }
+describe SearchResult do
+  let(:searchresult) { SearchResult.new }
 
   before do
     @url = "http://sfbay.craigslist.org/search/?areaID=1&subAreaID=&query=futon+soma&catAbb=sss"
-    FakeWeb.register_uri(:get, @url, :body => IO.read("./spec/dummy.html"))
+    FakeWeb.register_uri(:get, @url, :body => IO.read("test_page2.html"))
     searchresult.open_url(@url)
     post_mock = mock "Post"
     Post.stub!(:from_url).and_return(post_mock)

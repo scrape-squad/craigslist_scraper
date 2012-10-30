@@ -1,0 +1,6 @@
+CREATE TABLE search_results (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  search_parameter VARCHAR(64),
+  created_at DATETIME,
+  updated_at DATETIME
+);
