@@ -1,5 +1,6 @@
 require '../lib/post.rb'
 require 'fakeweb'
+require 'sqlite3'
 
 describe 'Post' do
 
@@ -93,5 +94,33 @@ describe 'Post' do
     it "creates a post with a description" do
       post.description.should match "Gas range and hood"
     end
+
+  context '#to_db' do
+    before(:each) {
+      @db = SQLite3::Database.new "dummy.db"
+      @db.execute <<-SQL
+      create table posts (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          date DATETIME,
+          title varchar(64),
+          price INTEGER,
+          location varchar(30),
+          category varchar(30),
+          url varchar(64),
+          description varchar(30),
+          search_result_id INTEGER
+        );
+          SQL
+    }
+
+    after(:each) {
+        File.unlink('dummy.db') if File.exist?('dummy.db')
+    }
+
+    it "is sent to the database" do
+      subject.to_db(@db, 4)
+      @db.execute("SELECT count(*) FROM posts").should eq [[1]]
+    end
+  end
   end
 end
