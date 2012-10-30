@@ -1,11 +1,12 @@
 require_relative '../lib/search_result.rb'
 require 'fakeweb'
+require 'sqlite3'
 
-describe SearchResult do
-  let(:searchresult) { SearchResult.new }
+describe Search_Result do
+  let(:searchresult) { Search_Result.new }
 
   before do
-    @url = "http://sfbay.craigslist.org/search/?areaID=1&subAreaID=&query=futon&catAbb=sss"
+    @url = "http://sfbay.craigslist.org/search/?areaID=1&subAreaID=&query=futon+soma&catAbb=sss"
     FakeWeb.register_uri(:get, @url, :body => IO.read("./spec/dummy.html"))
     searchresult.open_url(@url)
     post_mock = mock "Post"
@@ -33,7 +34,25 @@ describe SearchResult do
 
   context "#search_parameter" do
     it "should find all search parameters" do
-      searchresult.search_parameter.should eq "futon"
+      searchresult.search_parameter.should eq "futon soma"
+    end
+  end
+
+  context "#to_db" do
+    let(:db) { SQLite3::Database.new ('test.db') }
+    before do
+      db.execute <<-SQL
+        CREATE TABLE search_results (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          search_parameter VARCHAR(64),
+          created_at DATETIME,
+          updated_at DATETIME
+        )
+      SQL
+    end
+    it "sends search paramter to search results table" do
+      searchresult.to_db(db)
+      db.get_first_value('SELECT search_parameter FROM search_results').should eq 'futon soma'
     end
   end
 end
