@@ -45,14 +45,25 @@ describe SearchResult do
         CREATE TABLE search_results (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
           search_parameter VARCHAR(64),
+          search_result_url VARCHAR(64),
           created_at DATETIME,
           updated_at DATETIME
         )
       SQL
     end
+
+    after(:each) {
+         File.unlink('test.db') if File.exist?('test.db')
+     }
+
     it "sends search paramter to search results table" do
       searchresult.to_db(db)
       db.get_first_value('SELECT search_parameter FROM search_results').should eq 'futon soma'
+    end
+
+    it "sends search result url to search results table" do
+      searchresult.to_db(db)
+      db.get_first_value('SELECT search_result_url FROM search_results').should eq 'http://sfbay.craigslist.org/search/?areaID=1&subAreaID=&query=futon+soma&catAbb=sss'
     end
   end
 end
