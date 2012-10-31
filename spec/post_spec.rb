@@ -111,7 +111,7 @@ describe 'Post' do
           search_result_id INTEGER,
           emailed_at DATETIME
         );
-          SQL
+        SQL
     }
 
     after(:each) {
