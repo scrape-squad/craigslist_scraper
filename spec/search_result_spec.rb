@@ -7,7 +7,7 @@ describe SearchResult do
 
   before do
     @url = "http://sfbay.craigslist.org/search/?areaID=1&subAreaID=&query=futon+soma&catAbb=sss"
-    FakeWeb.register_uri(:get, @url, :body => IO.read("test_page2.html"))
+    FakeWeb.register_uri(:get, @url, :body => IO.read("../spec/test_page2.html"))
     searchresult.open_url(@url)
     post_mock = mock "Post"
     Post.stub!(:from_url).and_return(post_mock)
