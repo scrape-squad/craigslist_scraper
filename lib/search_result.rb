@@ -32,8 +32,8 @@ class SearchResult
   def to_db(db)
     search_parameter
     db.execute <<-SQL
-      INSERT INTO search_results (search_parameter, created_at, updated_at)
-      VALUES ("#{@query}", DATETIME('now'), DATETIME('now'))
+      INSERT INTO search_results (search_parameter, search_result_url, created_at, updated_at)
+      VALUES ("#{@query}", "#{@url}", DATETIME('now'), DATETIME('now'))
     SQL
     @search_result_id = db.get_first_value('SELECT id FROM search_results ORDER BY id DESC')
 
