@@ -20,7 +20,7 @@ class Mail
     RestClient.post "https://api:key-63ot5dnjyqr63xq-e0s-s-eyai1h89i1"\
     "@api.mailgun.net/v2/scrapesquad.mailgun.org/messages",data
 
-    self.to_db(db, email)
+    to_db(db, email)
   end
 
   def self.find_links(db)
@@ -36,10 +36,11 @@ class Mail
   end
 
   def self.to_db(db, email)
-    user_id = db.get_first_value("SELECT id FROM users WHERE email = #{email}")
-    db.execute("INSERT INTO emails(user_id, created_at)
-      VALUES(?, ?)",
-      user_id, DateTime.now)
+    query = "SELECT id FROM users WHERE email = '#{email}'"
+    user_id = db.get_first_value(query)
+    query2 = "INSERT INTO emails(user_id, created_at) "\
+               "VALUES(#{user_id}, DATETIME('now'))"
+    db.execute query2
   end
 
 
