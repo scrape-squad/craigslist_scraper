@@ -25,5 +25,4 @@ search_result.open_url("http://sfbay.craigslist.org/search/?areaID=1&subAreaID=&
 search_result.parse
 search_result.to_db(db.db)
 
-Mail.send_complex_message('mackmcconnell@gmail.com', db.db)
-
+Mail.send_complex_message(db.db, 'mackmcconnell@gmail.com')
