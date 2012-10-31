@@ -16,7 +16,10 @@ class SearchResult
   end
 
   def parse
-    @search_page.css(".row").each { |post| @posts << Post.from_url(post.at_css("a")[:href]) }
+    @search_page.css(".row").each do |post|
+      post = Post.from_url(post.at_css("a")[:href])
+      @posts << post unless post.nil?
+    end
     @posts
   end
 

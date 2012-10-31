@@ -108,7 +108,8 @@ describe 'Post' do
           category varchar(30),
           url varchar(64),
           description varchar(30),
-          search_result_id INTEGER
+          search_result_id INTEGER,
+          emailed_at DATETIME
         );
           SQL
     }

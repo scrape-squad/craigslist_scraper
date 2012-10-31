@@ -15,7 +15,7 @@ class Post
     @description = description
   end
 
-  def self.from_url(url)
+  def self.from_url(url) #Need to update to handle deleted posts.
     doc = Nokogiri::HTML(open(url))
     Post.new(date(doc), title(doc), price(doc), location(doc), category(doc), url, description(doc))
   end
